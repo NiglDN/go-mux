@@ -200,3 +200,13 @@ func TestGetMostExpensiveProducts(t *testing.T) {
 
 	checkResponseCode(t, http.StatusOK, response.Code)
 }
+
+func TestGetLeastExpensiveProducts(t *testing.T) {
+	clearTable()
+	addProducts(3)
+
+	req, _ := http.NewRequest("GET", "/products/cheap", nil)
+	response := executeRequest(req)
+
+	checkResponseCode(t, http.StatusOK, response.Code)
+}
