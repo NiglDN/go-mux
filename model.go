@@ -66,3 +66,26 @@ func getProducts(db *sql.DB, start, count int) ([]product, error) {
 
 	return products, nil
 }
+
+func getMostExpensiveProducts(db *sql.DB) ([]product, error) {
+	rows, err := db.Query(
+		"SELECT id, name, price FROM products ORDER BY price DESC LIMIT 3")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var products []product
+
+	for rows.Next() {
+		var p product
+		if err := rows.Scan(&p.ID, &p.Name, &p.Price); err != nil {
+			return nil, err
+		}
+		products = append(products, p)
+	}
+
+	return products, nil
+}
